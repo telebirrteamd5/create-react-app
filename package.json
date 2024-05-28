@@ -1,7 +1,7 @@
 {
   "name": "et-demo-giftcard-server",
   "version": "1.0.0",
-  "master": "app.js",
+  "main": "app.js",
   "author": "glitch.github.my@gmail.com",
   "license": "Apache License 2.0",
   "scripts": {
