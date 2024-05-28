@@ -1,44 +1,25 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
-  "license": "Apache License 2.0",
+  "name": "et-demo-giftcard-server",
+  "version": "1.0.0",
+  "master": "app.js",
   "author": "glitch.github.my@gmail.com",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^15.0.7",
-    "@testing-library/user-event": "^14.5.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.3.1",
-    "react-loading": "^2.0.3",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^4.0.0"
-  },
+  "license": "Apache License 2.0",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node app.js",
+    "server": "node app.js",
+    "test": "jest --watchAll --verbose"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "request": "^2.88.2",
+    "ws": "^8.17.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=14"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
