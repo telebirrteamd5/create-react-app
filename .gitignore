@@ -13,3 +13,8 @@
 /inddd.js
 /idea
 /index.js
+
+# Environment Variables
+.env
+.env.build
+.vercel
