@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "6285fce7-a89a-4064-a52a-f72f61a198e8",
+		"name": "openapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GenerateAppToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code == 200){\r",
+							"    var responseBodyJson = JSON.parse(responseBody);\r",
+							"    console.log(responseBodyJson);\r",
+							"    pm.environment.set(\"token\", responseBodyJson.token);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-APP-Key",
+						"value": "{{appid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \t\"appSecret\":\"{{appSecret}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/token",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "applyH5Token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code == 200){\r",
+							"    var responseBodyJson = JSON.parse(responseBody);\r",
+							"    console.log(responseBodyJson);\r",
+							"    pm.environment.set(\"access_token\", responseBodyJson.biz_content.access_token);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nonce_str\": \"c257ce7147de4f9a813c95cb62b7a420\",\r\n  \"biz_content\": {\r\n    \"auth_identifier\": \"{{ConsumerMsisdn}}\",\r\n    \"auth_type\": \"1000\",\r\n    \"appid\": \"{{MerchantId}}\",\r\n    \"resource_type\": \"OpenId\",\r\n    \"trade_type\": \"InApp\",\r\n    \"auth_merch_code\": \"{{MerchantCode}}\",\r\n    \"auth_limit\": \"5\",\r\n    \"auth_identifier_type\": \"01\",\r\n    \"callback_info\":\"123456\"\r\n  },\r\n  \"method\": \"payment.applyh5token\",\r\n  \"sign\": \"VNhVawAm7dF1Be6UvizcAFdMyXNxATupXJ/GrkgaMwfo+97o9sbodkwSNKA7OMd+twxkk/EfN8dTC60Z/h3qBvJ7VliDHiXVHn3+Vr0AKkynw5ITEwFrGuOnOtGHFRy+IGkwT4Xyb1DQyQeeeB4RC68FYbrqRrqfAXfEVjzOoe3epFQMQZ/lJPHK/WLSqM31da5nz8cash5bzBbXvlkcRJcsT+aTh/uFpeVs6AvX0P+ZgEdbNtIWGiL2DEvOL2+l/Yn1/SzYacLzO+PwjIeV8piv2twYfi5dIu7GaX0zQj617hlB2MNkgKsQ6NB0B2Mp8U/Y16LVy//r+0tH5peOhA==\",\r\n  \"version\": \"1.0\",\r\n  \"sign_type\": \"SHA256WithRSA\",\r\n  \"timestamp\": \"1664529190758\", \r\n  \"app_code\": \"{{MerchantCode}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/auth/applyH5Token",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"auth",
+						"applyH5Token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authToken",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-APP-Key",
+						"value": "{{appid}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nonce_str\": \"5K8264ILTKCH16CQ2502SI8ZNMTM67VS\",\r\n  \"biz_content\": {\r\n    \"access_token\": \"{{access_token}}\",\r\n    \"appid\": \"{{MerchantId}}\",\r\n    \"resource_type\": \"OpenId\",\r\n    \"trade_type\": \"InApp\"\r\n  },\r\n  \"method\": \"payment.authtoken\",\r\n  \"sign\": \"fsrL3dpoFc7B3Y094vN9OyeuUzWrzuxkBsZt9HciYqCQyMd+1VaF9psxT4xPUpI48PR1pfSgp3r9v1AlG79D4hTKdQhekjEGKrWykw5Fyyh6Z6O8NIStf070GqMq22WfwiDIP+cF1hG3v2IvEcv7WfG5CBKxoqEmEdWftRH5ufCAPzh034FuoHHFnRomHgl87m85q55zctwwue2PgL1hHMdx8xvrgruh2rYGL+X8JtMP47LIjyQynKLTEhzfSPzFgaQZ1i59p56DhL/sHYWqv/tUWFu3jPFbbz3TZiTkPkQw8x2FlkuVD2w/iCjOKowwyIH6zCWh06Q27IVYRgO06w==\",\r\n  \"version\": \"1.0\",\r\n  \"app_code\":\"{{MerchantCode}}\",\r\n  \"sign_type\": \"SHA256WithRSA\",\r\n  \"timestamp\": \"1535166225\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/auth/authToken",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"auth",
+						"authToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code == 200){\r",
+							"    var responseBodyJson = JSON.parse(responseBody);\r",
+							"    console.log(responseBodyJson);\r",
+							"    pm.environment.set(\"prepay_id\", responseBodyJson.biz_content.prepay_id);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nonce_str\": \"fcab0d2949e64a69a212aa83eab6ee1d\",\r\n  \"biz_content\": {\r\n    \"trans_currency\": \"ETB\",\r\n    \"total_amount\": \"12\",\r\n    \"merch_order_id\": \"{{merch_order_id}}\",\r\n    \"appid\": \"{{MerchantId}}\",\r\n    \"merch_code\": \"{{MerchantCode}}\",\r\n    \"timeout_express\": \"120m\",\r\n    \"trade_type\": \"InApp\",\r\n    \"notify_url\": \"https://www.baidu.com\",\r\n    \"title\": \"iphone1\",\r\n    \"business_type\":\"P2PTransfer\",\r\n    \"payee_identifier\": \"{{payeeConsumerMsisdn}}\",\r\n\t\"payee_identifier_type\": \"01\",\r\n\t\"payee_type\": \"1000\"\r\n  },\r\n  \"method\": \"payment.preorder\",\r\n  \"sign\": \"XCkbUInz+ZSPn9wjMKQClJX4U0dqqcHlrFf+hWlZPVHmwzMjfzmIHqyGu0KV+B7gT8HUiOyXF1rh+MuwajdlAcifP7U7mOZMKnwApEzdTvFzWLDl0AGonsfeH+FkbMdMbhciJm/4ssQMCVfZgvohxTk2sd1FUQzuFg7yvt6R8IU0kwFd77IGsW5HAQSblDzdNnkViZA+Wu82ZXyZJc58QUKQUNmGmHsjoAIO2LdFO4nPxjKb1ZdlQMm/dQxnUXgLA9A0DUofuf4jtf5m2IqY67ZpIdUJMDYO8ki3NYL7b9RRxz3q2Etu8DChPV09zwj3xrLp7zEN2qowMGF6iuL6RQ==\",\r\n  \"version\": \"1.0\",\r\n  \"sign_type\": \"SHA256WithRSA\",\r\n  \"timestamp\": \"1535166225\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/merchant/preOrder",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"merchant",
+						"preOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"timestamp\": \"1535166225\",\r\n\t\"nonce_str\": \"5K8264ILTKCH16CQ2502SI8ZNMTM67VS\",\r\n\t\"method\": \"payment.checkout\",\r\n\t\"sign_type\": \"SHA256WithRSA\",\r\n\t\"sign\": \"LsLMz25iRPMp/1mmD5rKPyQ87//mpdbd8f8fpRdxHewjyKZQVTSBrcmsJUqHNf/56B+IIOFutGiy6lpy4qPCGo138tRw60A/7Jlrsn9r983OrfnJRMhoS3rXzDf3uK3axp3kuqJ9gEWULk1rnqyHLIQ9TWMUnvQDBlE6dcQjqB55ErVV72/+wJHcIx2QocJobkBo5pGhX+9Zt5tGHHOsXdfhL1EB4drBKbLwfralavDV1SnMkWBmqtp0ecHPiWE87rwFo5aiyXS8jzD29DzBFQ6UFRbrS8uCEEG1maSdqTHmenj4P386RQERhX1/aikAfkatNex5BwD4GLhO9kmedg==\",\r\n\t\"lang\": \"en\",\r\n\t\"version\": \"1.0\",\r\n\t\"app_code\": \"{{MerchantId}}\",\r\n\t\"biz_content\": {\t\t\r\n\t\t\"appid\": \"{{MerchantId}}\",\r\n\t\t  \"merch_code\": \"{{MerchantCode}}\",\r\n\t\t\"prepay_id\": \"{{prepay_id}}\",  \r\n\t\t\"trade_type\": \"InApp\",\r\n\t\t\"payer_identifier\": \"{{ConsumerMsisdn}}\",\r\n\t\t\"payer_identifier_type\": \"01\",\r\n\t\t\"payer_type\": \"1000\",\r\n\t\t\"pwa_token\": \"a0e47ecec757a7f0046fce31be73b78f\",\r\n\t\t\"raw_request\": \"appid={{MerchantId}}&merch_code={{MerchantCode}}&nonce_str=5K8264ILTKCH16CQ2502SI8ZNMTM67VS&prepay_id={{prepay_id}}&timestamp=1535166225&sign=P+RZcTnxi/GFGPsxn01TLHIh01OjzYtuLXJyRXZRPAQKkM+Rt8A9EY2iz5+CvrVzV5SQA8BlwG4hT8y3cNcrMzZ/MpoI8NmiTN10CgoxSUJsVSs4o6laJ1lkj4CrtL9XvrTlqVg3AaFrMeyk7bcc6y7J70nFrOAGlKiLRB20e2wvmQSyIzG/gzvTMNXQUR17AJspCdbesZ7xrYx9i5UJfzg8DlHeUevHR1lk+hbiGRGqhx6/8cQMtZvSfhQyC/+LGDiQBwPk8q4OcxcmW8GJqwRAarbDWxkXO6deinOxx0GY7Z9th9sdPpRUUTJGHh2Fgi9hz+7W5xw7cmx+aN9YsQ==&sign_type=SHA256WithRSA\",\r\n\t\t\"funds_source\": \"Wallet\"\r\n\t}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/app/checkout",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"app",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payOrder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"timestamp\": \"1535166225\",\r\n\t\"nonce_str\": \"5K8264ILTKCH16CQ2502SI8ZNMTM67VS\",\r\n\t\"method\": \"payment.payorder\",\r\n\t\"sign_type\": \"SHA256WithRSA\",\r\n\t\"sign\": \"UAyflMIc5vmk1iux0T8rtW64IWlTYpTZy0EkZ0t9YZ8iLpnwgTVxy++5v1Qz9qtzLffgAhJLpPf1evYz9XLzSpmOAFsSuISH+1+OFTM4fpQQMbKABf5etNbmy72uGBcC/qZXb6ETVJNqGET9NrZbXyNeJW8e5vtHCIxPEk92FptaUWLDr20hrQaVJQNlIJjgdqOV5lpW1tsiOrW/mlRv4a2fzlQMIlJv2ZxPMiyl23Jm8PmB6AvLnCTGsKUQcmpJGPewXynJlDXjfitPfHvIaP+UNqQ2f4nhp6v7RVSzAQHQ3eRvYpnHI5rgHyQul8cC2nyMDkWi5Y9zuG8xvv1lsQ==\",\r\n\t\"lang\": \"en_US\",\r\n\t\"version\": \"1.0\",\r\n\t\"app_code\": \"{{MerchantId}}\",\r\n\t\"biz_content\": {\r\n\t\t\"prepay_id\": \"{{prepay_id}}\",\r\n\t\t\"payer_identifier_type\": \"01\",\r\n\t\t\"payer_identifier\": \"{{ConsumerMsisdn}}\",\r\n\t\t\"payer_type\": \"1000\",\r\n\t\t\"security_credential\": \"{{ConsumerPin}}\"\r\n\t}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/app/payOrder",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"app",
+						"payOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkOrder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"timestamp\": \"1535166225\",\r\n\t\"nonce_str\": \"5K8264ILTKCH16CQ2502SI8ZNMTM67VS\",\r\n\t\"method\": \"payment.checkorder\",\r\n\t\"sign_type\": \"SHA256WithRSA\",\r\n\t\"sign\": \"RoXqZe70Dg94mymTpYZMzeEQoHNwQYqFRF6ys8Q7di9To7YzuCg/o9r4QTjtFKTBMFkzAx+V3G1oMFPFtmoGhlFfYseRZuIBWpE+GY4EHc1rgfaTqlvDG/Kt9f8B90aho/B1ap6Y5APdlK2uwmjInpYmgC/6E06U/PylgK58VHkuOFGLBAl+6cFkp1c96SWZZT+Mi2uY+B/URfpIjRirR1oRuIMv6v1LZspLvghta0UO20PLnxS+cp6wucS5pdIG/nieWM6ab/tI3fClL57jVBEZ3Pq891YJiHut3T+RysQKDAUHwu/fMyaZn0uQ7Mh+mBaDv/x8jRrmt/NkBBnICg==\",\r\n\t\"version\": \"1.0\",\r\n\t\"app_code\": \"{{MerchantId}}\",\r\n\t\"biz_content\": {\t\r\n\t\t\"merch_code\": \"{{MerchantCode}}\",\r\n\t\t\"merch_appid\": \"{{MerchantId}}\",\r\n\t\t\"payer_identifier\": \"{{ConsumerMsisdn}}\",\r\n\t\t\"payer_identifier_type\": \"01\",\r\n\t\t\"payer_type\": \"1000\",\r\n\t\t\"merch_order_id\": \"{{merch_order_id}}\"\r\n\t}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/app/checkOrder",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"app",
+						"checkOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryOrder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"timestamp\": \"1535166225\",\r\n\t\"nonce_str\": \"5K8264ILTKCH16CQ2502SI8ZNMTM67VS\",\r\n\t\"method\": \"payment.queryorder\",\r\n\t\"sign_type\": \"SHA256WithRSA\",\r\n\t\"sign\": \"iq33P+PJk1A+aArrb9cFQk1zAXTJ8gp3+1fuonRETw26Hbjo1DLy7ANgQsp0DaFOnKCGLCDDTpIohH7kypuOcxjWrkjdyULNl2rIQEseTKugFp4UozwmXXO8Bfv/eEP//S0IEUlq7Y0wrUQU82g+A8JwvZPIU5furEadJx/Bj17Pbsjp4oeteS0fxORH80JUNeRKVhDRYl6bKyAX7V8mZRZhGDFLrdYc/rHiSg9+nVh5v5vmtzJ9v6zhVEJkLB8G5AG9KvD4Mf1PXmsszh40JIyft5X2Abc54cIDgfmX8cYIPA6fE6ftHJcAM+Gk74YehMIvQw3d75rZX/k17JdKZQ==\",\r\n\t\"version\": \"1.0\",\r\n\t\"biz_content\": {\r\n        \"appid\": \"{{MerchantId}}\",\r\n        \"merch_code\": \"{{MerchantCode}}\",\r\n\t\t\"merch_order_id\": \"{{merch_order_id}}\"\r\n\t}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/merchant/queryOrder",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"merchant",
+						"queryOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refund",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\r\n\t\"timestamp\": \"1536637503\",\r\n    \"nonce_str\": \"845255910308564481\",\r\n    \"method\": \"payment.refund\",\r\n    \"sign_type\": \"SHA256WithRSA\",\r\n    \"sign\": \"FTIDl4d+jf0S7KtSt9xjfQ7FlyPjpdEeZcHwtnlzO0DCVo7txz0ybjiWBgxevGCtb9DelmIK2eEydOwlIqIXGQpNJPTZN14SJXxMvP6XkyFj3bjCKwpqVy4ubPdVLDbDUHWtWi2G8dcieXEECxGCirKnUE0sFKAOW9m9DJpAhdxRltcJJdYlwCISd1kE9C3qkmXBEhL9ghEnnu+BYdJYJ0kwlzdDSIHUagZlhqPdZnUZFN4ZwXlXptV7IKsqkI1AurMpPiXhPUucyUShZUxchcKtIPvhBuakQBs2Tv9yOwnObtdFQm82het71/M3CdCnDUOKNNO4glnO0S9VRwDiwg==\",\r\n    \"version\": \"1.0\",\r\n    \"biz_content\": {\r\n      \"merch_order_id\": \"{{merch_order_id}}\",\r\n      \"appid\": \"{{MerchantId}}\",\r\n      \"merch_code\": \"{{MerchantCode}}\",\r\n      \"refund_request_no\": \"{{refund_request_no}}\",\r\n\t\r\n      \"refund_reason\": \"refund it, haha\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/merchant/refund",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"merchant",
+						"refund"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryrefund",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					},
+					{
+						"key": "x-app-key",
+						"value": "{{appid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"timestamp\": \"1536637503\",\r\n    \"nonce_str\": \"5K8264ILTKCH16CQ2502SI8ZNMTM67VS\",\r\n    \"method\": \"payment.queryrefund\",\r\n    \"sign_type\": \"SHA256WithRSA\",\r\n    \"sign\": \"gEWbbeNpMwva64t6J7HbUg+AxffsDyR0DZ+spiny+V2MAyamw2ZmjxJG2ROVTwH40HuFfF7/nA8x4N7d73+OjSIMSU65nIF/XB01ONRU4/fGIlbR6V3yXi+yIZEfD3cfP+9ec6De0q/t+24b4VP77Z1YnY2GhgT/n+ZCWnxsQkL6RBwiWPo7X4ZQV0Gtfd3vdtJ5Jmg8eAK4giVKmaBmkg1F58WBF542VrjYj93Kpufb7awcj/3iDheqC8uOVdz9tGingfgv6An7Iq/uSaKpyOda4FO9gYqFVlEQjOyp/+Aq++Iyniy7MfwgcUdk9v2jP+rWmGTobXqfUzr+EiyPXQ==\",\r\n    \"version\": \"1.0\",\r\n    \"biz_content\": {\r\n        \"merch_order_id\": \"{{merch_order_id}}\",\r\n        \"merch_code\": \"{{MerchantCode}}\",\r\n        \"appid\": \"{{MerchantId}}\",\r\n        \"refund_request_no\": \"{{refund_request_no}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BasicURL}}/payment/v1/merchant/queryRefund",
+					"host": [
+						"{{BasicURL}}"
+					],
+					"path": [
+						"payment",
+						"v1",
+						"merchant",
+						"queryRefund"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+      }
