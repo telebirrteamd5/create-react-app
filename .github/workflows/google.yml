@@ -68,14 +68,14 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
+          --tag "gcr.io/dulcet-buttress-425118-h4/github.com/telebirrteamd5/create-react-app:$COMMIT_SHA" \
+          --build-arg GITHUB_SHA="$COMMIT_SHA" \
+          --build-arg GITHUB_REF="$COMMIT_REF" \
           .
     # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+        docker push "$gcr.io/dulcet-buttress-425118-h4/github.com/telebirrteamd5/create-react-app:$COMMIT_SHA"
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
