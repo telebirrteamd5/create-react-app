@@ -1,0 +1,67 @@
+﻿apiVersion: serving.knative.dev/v1 kind:Service metadata:
+name: create-react-app
+namespace: '214726361703'
+selfLink:
+/apis/serving.knative.dev/v1/namespaces/214726361703/services/create-react-app
+uid: 991cf74f-9eac-4f38-bcd2-52972973e811
+resourceVersion: AAYZ/R1PtBg
+generation: 2
+creationTimestamp: '2024-06-03T14:24:48.970277Z'
+labels:
+gcb-trigger-id: 81933600-5b8c-412f-afd5-d13d49411970 managed-by: gcp-cloud-build-deploy-cloud-run gcb-trigger-region: global
+cloud.googleapis.com/location: us-central1
+annotations:
+serving.knative.dev/creator: glitch.github.my@gmail.com
+serving.knative.dev/lastModifier: glitch.github.my@gmail.com
+run.googleapis.com/client-name: cloud-console.
+run.googleapis.com/operation-id: 78879099-da66-4483-a7f8-4737a0f6eb96 run.googleapis.com/ingress: all
+run.googleapis.com/ingress-status: all
+spec:
+template: metadata:
+labels:
+run.googleapis.com/startupProbeType: Default
+annotations:
+spec:
+autoscaling.knative.dev/maxScale: '10'
+run.googleapis.com/cloud sql-instances: dulcet-buttress-425118-h4:us-central1: telebirr run.googleapis.com/client-name: cloud-console
+run.googleapis.com/startup-cpu-boost:
+containerConcurrency: 80
+timeoutSeconds: 300
+'true'
+serviceAccountName: 214726361703-compute@developer.gserviceaccount.com
+containers:
+name: placeholder-1
+image: gcr.io/cloud run/placeholder
+ports:
+- name: http1
+containerPort: 8080
+resources:
+limits:
+cpu: 1000m
+memory: 512Mi
+startupProbe:
+traffic:
+timeoutSeconds: 240
+periodSeconds: 240
+failureThreshold: 1
+tcpSocket:
+port: 8080
+- percent: 100
+latestRevision: true
+status:
+observedGeneration: 2
+conditions:
+- type: Ready
+status: 'True'
+lastTransitionTime: '2024-06-03T14:25:02.338072Z'
+type: ConfigurationsReady
+status: 'True'
+lastTransitionTime: '2024-06-03T14:24:49.267018Z' type: Routes Ready
+status: 'True'
+lastTransitionTime: '2024-06-03T14:25:02.297791Z' latestReadyRevision Name: create-react-app-00001-gkt latestCreatedRevision Name: create-react-app-00001-gkt
+traffic:
+- revisionName: create-react-app-00001-gkt
+percent: 100
+latestRevision: true
+url: https://create-react-app-1b6yge5moq-uc.a.run.app address:
+url: https://create-react-app-1b6yge5moq-uc.a.run.app
